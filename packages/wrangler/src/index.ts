@@ -70,6 +70,7 @@ import { whoami } from "./whoami";
 import type { Config } from "./config";
 import type { CommonYargsArgv, CommonYargsOptions } from "./yargs-types";
 import type Yargs from "yargs";
+import { versionsUploadOptions, versionsUploadHandler } from "./versions";
 
 const resetColor = "\x1b[0m";
 const fgGreenColor = "\x1b[32m";
@@ -708,6 +709,16 @@ export function createCLIParser(argv: string[]) {
 			}
 		}
 	);
+
+	// versions
+	wrangler.command("versions", false, (versionYargs) => {
+		return versionYargs.command(
+			"upload",
+			"Upload a Worker for Gradual Rollouts [beta]",
+			versionsUploadOptions,
+			versionsUploadHandler
+		);
+	});
 
 	wrangler.exitProcess(false);
 
